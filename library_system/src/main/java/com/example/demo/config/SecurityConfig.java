@@ -25,7 +25,8 @@ public class SecurityConfig {
             CustomUserDetailsService userDetailsService,
             PasswordEncoder passwordEncoder
     ) {
-        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder);
         return provider;
     }
@@ -52,10 +53,9 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/ui/dashboard", true)
-                        .permitAll()
-                )
+        .loginPage("/login")
+        .permitAll()
+)
                 .httpBasic(Customizer.withDefaults());
 
         return http.build();
