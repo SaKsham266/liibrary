@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/fragments :: head('Dashboard | Library System')}"></head>
+<body class="d-flex flex-column min-vh-100 app-surface">
+<nav th:replace="~{layout/fragments :: navbar('dashboard')}"></nav>
+
+<main class="container py-4 py-lg-5">
+    <section class="mb-4">
+        <h1 class="h3 mb-1">Dashboard</h1>
+        <p class="text-muted mb-0">Overview of your library operations.</p>
+    </section>
+
+    <section class="row g-4">
+        <div class="col-12 col-md-6 col-xl-4">
+            <div class="metric-card card border-0 h-100">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted mb-1">Total Books</p>
+                        <h2 class="display-6 mb-0 fw-semibold" th:text="${totalBooks}">0</h2>
+                    </div>
+                    <span class="metric-icon bg-primary-subtle text-primary">
+                        <i class="bi bi-journals"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-xl-4">
+            <div class="metric-card card border-0 h-100">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted mb-1">Total Members</p>
+                        <h2 class="display-6 mb-0 fw-semibold" th:text="${totalMembers}">0</h2>
+                    </div>
+                    <span class="metric-icon bg-success-subtle text-success">
+                        <i class="bi bi-people"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-xl-4">
+            <div class="metric-card card border-0 h-100">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                    <div>
+                        <p class="text-muted mb-1">Issued Books</p>
+                        <h2 class="display-6 mb-0 fw-semibold" th:text="${issuedBooks}">0</h2>
+                    </div>
+                    <span class="metric-icon bg-warning-subtle text-warning-emphasis">
+                        <i class="bi bi-journal-arrow-up"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="row g-4 mt-1">
+        <div class="col-12">
+            <div class="card border-0 chart-card">
+                <div class="card-body p-4 p-lg-5">
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
+                        <div>
+                            <h3 class="h5 mb-1">Book Availability</h3>
+                            <p class="text-muted mb-0">Live split between available and issued books.</p>
+                        </div>
+                        <span class="badge rounded-pill text-bg-light border text-secondary px-3 py-2">
+                            <i class="bi bi-graph-up-arrow me-1"></i>Real-time Overview
+                        </span>
+                    </div>
+
+                    <div class="row align-items-center g-4">
+                        <div class="col-12 col-lg-5">
+                            <div class="chart-wrapper">
+                                <canvas id="availabilityChart" aria-label="Available vs Issued books chart"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-7">
+                            <div class="row g-3">
+                                <div class="col-12 col-sm-6">
+                                    <div class="stat-panel">
+                                        <p class="text-muted mb-1">Available Books</p>
+                                        <h4 class="mb-0 text-success" th:text="${availableBooks}">0</h4>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-6">
+                                    <div class="stat-panel">
+                                        <p class="text-muted mb-1">Issued Books</p>
+                                        <h4 class="mb-0 text-warning-emphasis" th:text="${issuedBooks}">0</h4>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="stat-panel">
+                                        <p class="text-muted mb-1">Total Catalog</p>
+                                        <h4 class="mb-0" th:text="${totalBooks}">0</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{layout/fragments :: footer}"></footer>
+<div th:replace="~{layout/fragments :: scripts}"></div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        const canvas = document.getElementById("availabilityChart");
+        if (!canvas || typeof Chart === "undefined") {
+            return;
+        }
+
+        const availableBooks = /*[[${availableBooks}]]*/ 0;
+        const issuedBooks = /*[[${issuedBooks}]]*/ 0;
+
+        new Chart(canvas, {
+            type: "doughnut",
+            data: {
+                labels: ["Available", "Issued"],
+                datasets: [{
+                    data: [availableBooks, issuedBooks],
+                    backgroundColor: ["#16a34a", "#f59e0b"],
+                    borderColor: ["#ffffff", "#ffffff"],
+                    borderWidth: 4,
+                    hoverOffset: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: "68%",
+                plugins: {
+                    legend: {
+                        position: "bottom",
+                        labels: {
+                            boxWidth: 12,
+                            boxHeight: 12,
+                            usePointStyle: true,
+                            pointStyle: "circle",
+                            padding: 18
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+
+
+services:
+  mariadb:
+    image: mariadb:11
+    container_name: library-mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: librarydb
+      MYSQL_USER: library
+      MYSQL_PASSWORD: librarypass
+    ports:
+      - "3307:3306"
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+  app:
+    build: .
+    container_name: library-app
+    restart: always
+    depends_on:
+      - mariadb
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/librarydb
+      SPRING_DATASOURCE_USERNAME: library
+      SPRING_DATASOURCE_PASSWORD: librarypass
+    ports:
+      - "8080:8080"
+
+volumes:
+  mariadb_data:

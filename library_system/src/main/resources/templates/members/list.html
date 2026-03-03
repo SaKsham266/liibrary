@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/fragments :: head('Members | Library System')}"></head>
+<body class="d-flex flex-column min-vh-100 app-surface">
+<nav th:replace="~{layout/fragments :: navbar('members')}"></nav>
+
+<main class="container py-4 py-lg-5">
+    <section class="mb-4">
+        <h1 class="h3 mb-1">Members</h1>
+        <p class="text-muted mb-0">Current registered members.</p>
+    </section>
+
+    <section class="card border-0 table-card">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(members)}">
+                    <td colspan="4" class="text-center py-4 text-muted">No members found.</td>
+                </tr>
+                <tr th:each="member : ${members}">
+                    <td th:text="${member.memberId}">1</td>
+                    <td class="fw-medium" th:text="${member.name}">Name</td>
+                    <td th:text="${member.email}">email@example.com</td>
+                    <td th:text="${member.phone}">9999999999</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{layout/fragments :: footer}"></footer>
+<div th:replace="~{layout/fragments :: scripts}"></div>
+</body>
+</html>

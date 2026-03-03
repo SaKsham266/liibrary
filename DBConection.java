@@ -2,7 +2,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 class DBConnection {
-    private static final String URL = "jdbc:mariadb://localhost:3307/LibraryDB?allowPublicKeyRetrieval=true&useSSL=false";
+    private static final String URL = "jdbc:mariadb://localhost:3306/LibraryDB?allowPublicKeyRetrieval=true&useSSL=false";
     private static final String USER = "root"; // Replace with your MariaDB username
     private static final String PASSWORD = "qwerty"; // Replace with your MariaDB password
 
