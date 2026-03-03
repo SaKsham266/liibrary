@@ -5,8 +5,6 @@ import com.example.demo.exception.LibraryException;
 import com.example.demo.model.Book;
 import com.example.demo.service.LibraryService;
 import jakarta.validation.Valid;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,16 +26,6 @@ public class UiController {
     @GetMapping("/")
     public String root() {
         return "redirect:/ui/dashboard";
-    }
-
-    @GetMapping("/login")
-    public String login(Authentication authentication) {
-        if (authentication != null
-                && authentication.isAuthenticated()
-                && !(authentication instanceof AnonymousAuthenticationToken)) {
-            return "redirect:/ui/dashboard";
-        }
-        return "login";
     }
 
     @GetMapping("/ui/dashboard")
@@ -148,4 +136,8 @@ public class UiController {
         book.setPublisher(form.getPublisher());
         return book;
     }
+    @GetMapping("/login")
+public String login() {
+    return "login";
+}
 }
