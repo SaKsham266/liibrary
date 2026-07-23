@@ -39,9 +39,9 @@ Spring Boot 3 based library management system with a secured REST API and a Thym
 
 | Username   | Password | Role      |
 |------------|----------|-----------|
-| admin      | qwerty   | ADMIN     |
-| librarian  | qwerty   | LIBRARIAN |
-| member     | qwerty   | MEMBER    |
+| admin      | `DEFAULT_USER_PASSWORD` from `.env` | ADMIN     |
+| librarian  | `DEFAULT_USER_PASSWORD` from `.env` | LIBRARIAN |
+| member     | `DEFAULT_USER_PASSWORD` from `.env` | MEMBER    |
 
 ## Role Rights
 
@@ -78,6 +78,7 @@ Spring Boot 3 based library management system with a secured REST API and a Thym
 
 ### Option 1: Docker (Recommended)
 
+1. Create/update `.env` in the project root. Use `.env.example` as the template.
 1. Build and start containers:
    ```bash
    docker-compose up -d --build
@@ -93,12 +94,7 @@ Spring Boot 3 based library management system with a secured REST API and a Thym
 
 1. Ensure Java 17 and Maven are installed.
 2. Start a MariaDB instance and create a database/user (or use Docker for DB only).
-3. Set datasource environment variables:
-   ```bash
-   export SPRING_DATASOURCE_URL=jdbc:mariadb://localhost:3307/librarydb
-   export SPRING_DATASOURCE_USERNAME=library
-   export SPRING_DATASOURCE_PASSWORD=librarypass
-   ```
+3. Create/update `.env` in the project root. Spring Boot imports it automatically when running locally.
 4. Run the app:
    ```bash
    ./mvnw spring-boot:run
@@ -123,4 +119,3 @@ When added, use:
 ![Books](docs/snapshots/books.png)
 ![Members](docs/snapshots/members.png)
 ```
-

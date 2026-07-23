@@ -4,19 +4,28 @@ import com.example.demo.model.Role;
 import com.example.demo.model.UserAccount;
 import com.example.demo.repository.UserAccountRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.util.StringUtils;
 
 @Configuration
 public class SecurityDataInitializer {
 
     @Bean
-    public CommandLineRunner seedUsers(UserAccountRepository repository, PasswordEncoder passwordEncoder) {
+    public CommandLineRunner seedUsers(
+            UserAccountRepository repository,
+            PasswordEncoder passwordEncoder,
+            @Value("${library.security.default-password}") String defaultPassword
+    ) {
         return args -> {
-            upsertDefaultUser(repository, passwordEncoder, "admin", "qwerty", Role.ROLE_ADMIN);
-            upsertDefaultUser(repository, passwordEncoder, "librarian", "qwerty", Role.ROLE_LIBRARIAN);
-            upsertDefaultUser(repository, passwordEncoder, "member", "qwerty", Role.ROLE_MEMBER);
+            if (!StringUtils.hasText(defaultPassword)) {
+                throw new IllegalStateException("DEFAULT_USER_PASSWORD must be set before seeding users.");
+            }
+            upsertDefaultUser(repository, passwordEncoder, "admin", defaultPassword, Role.ROLE_ADMIN);
+            upsertDefaultUser(repository, passwordEncoder, "librarian", defaultPassword, Role.ROLE_LIBRARIAN);
+            upsertDefaultUser(repository, passwordEncoder, "member", defaultPassword, Role.ROLE_MEMBER);
         };
     }
 

@@ -1,17 +1,15 @@
-
-
 services:
   mariadb:
     image: mariadb:11
     container_name: library-mariadb
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: librarydb
-      MYSQL_USER: library
-      MYSQL_PASSWORD: librarypass
+      MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MARIADB_DATABASE}
+      MYSQL_USER: ${MARIADB_USER}
+      MYSQL_PASSWORD: ${MARIADB_PASSWORD}
     ports:
-      - "3307:3306"
+      - "${MARIADB_PORT}:3306"
     volumes:
       - mariadb_data:/var/lib/mysql
     healthcheck:
@@ -22,18 +20,22 @@ services:
       start_period: 30s
 
   app:
-  image: public.ecr.aws/b2b0w9e1/library_system:latest
-  container_name: library-app
-  restart: always
-  depends_on:
-    mariadb:
-      condition: service_healthy
-  environment:
-    SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/librarydb
-    SPRING_DATASOURCE_USERNAME: library
-    SPRING_DATASOURCE_PASSWORD: librarypass
-  ports:
-    - "8080:8080"
+    image: public.ecr.aws/b2b0w9e1/library_system:latest
+    container_name: library-app
+    restart: always
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/${MARIADB_DATABASE}
+      SPRING_DATASOURCE_USERNAME: ${MARIADB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${MARIADB_PASSWORD}
+      GITHUB_CLIENT_ID: ${GITHUB_CLIENT_ID}
+      GITHUB_CLIENT_SECRET: ${GITHUB_CLIENT_SECRET}
+      DEFAULT_USER_PASSWORD: ${DEFAULT_USER_PASSWORD}
+      PORT: ${PORT}
+    ports:
+      - "${PORT}:8080"
 
 volumes:
   mariadb_data:
