@@ -14,19 +14,26 @@ services:
       - "3307:3306"
     volumes:
       - mariadb_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
   app:
-    build: .
-    container_name: library-app
-    restart: always
-    depends_on:
-      - mariadb
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/librarydb
-      SPRING_DATASOURCE_USERNAME: library
-      SPRING_DATASOURCE_PASSWORD: librarypass
-    ports:
-      - "8080:8080"
+  image: public.ecr.aws/b2b0w9e1/library_system:latest
+  container_name: library-app
+  restart: always
+  depends_on:
+    mariadb:
+      condition: service_healthy
+  environment:
+    SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/librarydb
+    SPRING_DATASOURCE_USERNAME: library
+    SPRING_DATASOURCE_PASSWORD: librarypass
+  ports:
+    - "8080:8080"
 
 volumes:
   mariadb_data:
