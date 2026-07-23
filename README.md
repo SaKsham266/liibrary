@@ -63,9 +63,7 @@ It's designed as a portfolio-grade demonstration of backend engineering, securit
 - Three roles: `ROLE_ADMIN`, `ROLE_LIBRARIAN`, `ROLE_MEMBER`
 - Endpoint-level authorization (e.g., only admins can register members; librarians and admins can issue/return books)
 
-> **Note:** GitHub OAuth client credentials are present in configuration, but OAuth login is **not yet wired into the active security filter chain** — treat this as a work in progress (see [Future Improvements](#-future-improvements)).
 
----
 
 ## 🛠️ Tech Stack
 
@@ -115,22 +113,24 @@ The application follows a classic layered Spring MVC architecture, containerized
 
 ## 🖼️ Screenshots
 
-> Add screenshots to `library_system/docs/snapshots/` and reference them below.
+
 
 ### Login
-`TODO: add screenshot`
+<img width="1851" height="668" alt="image" src="https://github.com/user-attachments/assets/f9cf30c7-94d1-4356-b598-9e983057bbae" />
+
 
 ### Dashboard
-`TODO: add screenshot`
+<img width="1689" height="869" alt="image" src="https://github.com/user-attachments/assets/1476ff36-3d85-45d3-b054-5e6340150618" />
+
 
 ### Books
-`TODO: add screenshot`
+<img width="1743" height="847" alt="image" src="https://github.com/user-attachments/assets/f3a333e9-db14-4878-b7dc-2a7f7b55bb9a" />
+
 
 ### Members
-`TODO: add screenshot`
+<img width="1727" height="492" alt="image" src="https://github.com/user-attachments/assets/3802514b-ff8b-4bcd-aabb-5fe35ede8760" />
 
-### Transactions
-`TODO: add screenshot`
+
 
 ---
 
@@ -279,11 +279,9 @@ export SPRING_DATASOURCE_PASSWORD=change_me
 export GITHUB_CLIENT_ID=your_github_oauth_client_id
 export GITHUB_CLIENT_SECRET=your_github_oauth_client_secret
 export PORT=8080
-```
+``
 
-> ⚠️ **Security note:** an earlier version of this file committed a real GitHub OAuth `client-id` and `client-secret` in plaintext. Those values are now sourced from environment variables, but the **old credentials are permanently exposed in git history** and must be rotated in GitHub's OAuth App settings — switching to env vars alone does not undo that exposure.
 
----
 
 ## 🗄️ Database
 
@@ -339,7 +337,7 @@ The application is a **hybrid**: a server-rendered Spring MVC UI under `/ui/**` 
 - [ ] Application monitoring/observability (metrics, logs, alerts)
 - [ ] Expanded unit and integration test coverage
 - [ ] Redis caching for frequently accessed data
-- [ ] Complete GitHub OAuth login integration
+
 
 ---
 
@@ -372,7 +370,7 @@ This project demonstrates practical, end-to-end software engineering skills, inc
 
 ## 👤 Author
 
-**TODO: Your Name**
+**TODO: Saksham Sethi
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-0A66C2?logo=linkedin&logoColor=white)](TODO-linkedin-url)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Profile-0A66C2?logo=linkedin&logoColor=white)](www.linkedin.com/in/saksham-sethi-562b95258)
 [![GitHub](https://img.shields.io/badge/GitHub-SaKsham266-181717?logo=github&logoColor=white)](https://github.com/SaKsham266)
